@@ -19,6 +19,10 @@ RUN mkdir -p $SCALA_HOME && cd $SCALA_HOME  \
           /usr/local/bin \
  && :
 
+# Override the "common" script in the Scala tar archive $SCALA_URL.
+# Our version adds CLASSPATH to the -cp argument when the Java VM is started.
+COPY lib/common $SCALA_HOME/bin
+
 # Download libraries
 RUN ivy_install -n "scala-library" -d "$SCALA_HOME/lib" \
     # These go to boot classpath
