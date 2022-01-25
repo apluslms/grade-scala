@@ -1,6 +1,6 @@
 #!/bin/sh
 
-java_ver=11
+java_ver=adopt-11
 
 if [ "${DOCKER_TAG#*-}" = "${DOCKER_TAG}" ]; then
     base=${DOCKER_TAG}
@@ -24,7 +24,7 @@ if [ "$full" != "latest" ]; then
 fi
 
 : > tags.txt
-for layer in "" "python" "scala3"; do
+for layer in "" "python"; do
     if [ "$layer" ]; then
         tag="$layer-$full"
         file="Dockerfile.$layer"

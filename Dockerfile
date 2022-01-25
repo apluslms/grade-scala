@@ -1,43 +1,42 @@
 ARG BASE_TAG=latest
 FROM apluslms/grade-java:$BASE_TAG
 
-ARG SCALA_VER=2.13
-ARG SCALA_FVER=2.13.8
-ARG SCALA_URL=https://downloads.lightbend.com/scala/$SCALA_FVER/scala-$SCALA_FVER.tgz
+ARG SCALA_VER=3
+ARG SCALA_FVER=3.1.1
+ARG SCALA_URL=https://github.com/lampepfl/dotty/releases/download/$SCALA_FVER/scala3-$SCALA_FVER.tar.gz
 ARG SCALA_DIR=/usr/local/scala
-ENV SCALA_HOME=$SCALA_DIR/scala-$SCALA_FVER
+ENV SCALA_HOME=$SCALA_DIR/scala3-$SCALA_FVER
 
 RUN mkdir -p $SCALA_HOME && cd $SCALA_HOME  \
-\
  # Download scala scripts
- # TODO: move scala script into our own repo or recreate it
  && curl -LSs $SCALA_URL -o - \
   | tar zx --strip-components=1 \
-     scala-$SCALA_FVER/bin/scala \
-     scala-$SCALA_FVER/bin/scalac \
+ # Remove Windows scripts
+ && rm -f $SCALA_HOME/bin/*.bat \
  && ln -s $SCALA_HOME/bin/scala \
           $SCALA_HOME/bin/scalac \
+          $SCALA_HOME/bin/scaladoc \
           /usr/local/bin \
-\
- # Download libraries
- && ivy_install -n "scala-library" -d "$SCALA_HOME/lib" \
+ && :
+
+# Download libraries
+RUN ivy_install -n "scala-library" -d "$SCALA_HOME/lib" \
     # These go to boot classpath
     # core
-    org.scala-lang scala-library $SCALA_FVER \
+    org.scala-lang scala3-library_$SCALA_VER $SCALA_FVER \
     # compiler
-    org.scala-lang scala-compiler $SCALA_FVER \
-    org.scala-lang.modules scala-parser-combinators_$SCALA_VER 2.1.0 \
+    org.scala-lang scala3-compiler_$SCALA_VER $SCALA_FVER \
+    org.scala-lang.modules scala-parser-combinators_$SCALA_VER [2.1.0,2.2[ \
  && ivy_install -n "grade-scala" -d "$SCALA_DIR/lib" \
     # These go to classpath
     # core libs are repeated, so the deps are resolved to same jars
-    org.scala-lang scala-library $SCALA_FVER \
-    org.scala-lang scala-compiler $SCALA_FVER \
+    org.scala-lang scala3-library_$SCALA_VER $SCALA_FVER \
+    org.scala-lang scala3-compiler_$SCALA_VER $SCALA_FVER \
     # extra libs
-    org.scala-lang.modules scala-swing_$SCALA_VER 3.0.0 \
+    org.scala-lang.modules scala-swing_$SCALA_VER [3.0.0,4.0[ \
+    org.scalactic scalactic_$SCALA_VER [3.2.11,3.3[ \
     # for grading
-    org.scalatest scalatest_$SCALA_VER 3.2.5 "default->master,compile,runtime" \
-    org.scalamock scalamock_$SCALA_VER 5.2.0 \
-    com.beautiful-scala scalastyle_$SCALA_VER [1.5.0,1.6[ \
+    org.scalatest scalatest_$SCALA_VER [3.2.11,3.3[ "default->master,compile,runtime" \
     com.typesafe.akka akka-actor_$SCALA_VER [2.6.18,2.7[ \
  && :
 
