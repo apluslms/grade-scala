@@ -4,7 +4,7 @@ Grading environment with specific Scala version in path.
 
 This image extends [grade-java](https://github.com/apluslms/grade-java).
 
-The base layer has Scala 3.1 and Java 11 installed.
+The base layer has Scala 3.2 and Java 11 installed.
 
 Images are tagged with Scala and grading-base versions in the format `<scala>-<grading-base>`.
 Version tag can also include `uN` meaning *update N* where N is an increasing number.
