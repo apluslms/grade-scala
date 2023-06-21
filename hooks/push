@@ -1,7 +1,3 @@
 #!/bin/sh
 
-while read tag; do
-    echo "### Pushing $DOCKER_REPO:$tag"
-    docker push $DOCKER_REPO:$tag
-done < tags.txt
-rm -f tags.txt
+# This hook is empty because the images were pushed to the registry in the build hook

@@ -1,5 +1,5 @@
 ARG BASE_TAG=latest
-FROM apluslms/grade-java:$BASE_TAG
+FROM --platform=$TARGETPLATFORM apluslms/grade-java:$BASE_TAG
 
 ARG SCALA_VER=3
 ARG SCALA_FVER=3.3.0
