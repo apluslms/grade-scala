@@ -1,5 +1,5 @@
 ARG FULL_TAG=latest
-FROM apluslms/grade-scala:$FULL_TAG
+FROM --platform=$TARGETPLATFORM apluslms/grade-scala:$FULL_TAG
 
 RUN apt_install \
     python3 \
