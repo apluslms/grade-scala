@@ -2,7 +2,7 @@ ARG BASE_TAG=latest
 FROM apluslms/grade-java:$BASE_TAG
 
 ARG SCALA_VER=3
-ARG SCALA_FVER=3.2.0
+ARG SCALA_FVER=3.3.0
 ARG SCALA_URL=https://github.com/lampepfl/dotty/releases/download/$SCALA_FVER/scala3-$SCALA_FVER.tar.gz
 ARG SCALA_DIR=/usr/local/scala
 ENV SCALA_HOME=$SCALA_DIR/scala3-$SCALA_FVER
