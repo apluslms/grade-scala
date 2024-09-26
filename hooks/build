@@ -4,7 +4,7 @@ docker run --privileged --rm tonistiigi/binfmt --install all
 
 docker buildx create --use default
 
-java_ver=adopt-11
+java_ver=17
 
 if [ "${DOCKER_TAG#*-}" = "${DOCKER_TAG}" ]; then
     base=${DOCKER_TAG}
